@@ -1,6 +1,6 @@
 package br.com.usuario.cadastro_usuario.dto;
 
-public class EnderecoDto{
+public class EnderecoDto {
 	private String idUser;
 
 	private String cep;
@@ -9,11 +9,10 @@ public class EnderecoDto{
 	private String bairro;
 	private String localidade;
 	private String uf;
-	private String ibge;
-	private String gia;
+	private int numero;
 
-	public EnderecoDto(String idUser, String cep, String logradouro, String complemento, String bairro, String localidade,
-			String uf, String ibge, String gia) {
+	public EnderecoDto(String idUser, String cep, String logradouro, String complemento, String bairro,
+			String localidade, String uf, int numero) {
 		this.idUser = idUser;
 		this.cep = cep;
 		this.logradouro = logradouro;
@@ -21,8 +20,7 @@ public class EnderecoDto{
 		this.bairro = bairro;
 		this.localidade = localidade;
 		this.uf = uf;
-		this.ibge = ibge;
-		this.gia = gia;
+		this.numero = numero;
 	}
 
 	public String getIdUser() {
@@ -81,19 +79,12 @@ public class EnderecoDto{
 		this.uf = uf;
 	}
 
-	public String getIbge() {
-		return ibge;
+	public int getNumero() {
+		return numero;
 	}
 
-	public void setIbge(String ibge) {
-		this.ibge = ibge;
+	public void setNumero(int numero) {
+		this.numero = numero;
 	}
 
-	public String getGia() {
-		return gia;
-	}
-
-	public void setGia(String gia) {
-		this.gia = gia;
-	}
 }
