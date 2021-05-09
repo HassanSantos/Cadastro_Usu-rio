@@ -1,10 +1,10 @@
-package br.com.usuario.cadastro_usuario;
+package com.endereco.usuario.Cadastro.de.endereco.de.usuario;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CadastroUsuarioApplicationTests {
+class CadastroDeEnderecoDeUsuarioApplicationTests {
 
 	@Test
 	void contextLoads() {

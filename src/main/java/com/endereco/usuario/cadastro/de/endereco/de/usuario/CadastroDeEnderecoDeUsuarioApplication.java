@@ -1,4 +1,4 @@
-package br.com.usuario.cadastro_usuario;
+package com.endereco.usuario.cadastro.de.endereco.de.usuario;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-public class CadastroUsuarioApplication {
+public class CadastroDeEnderecoDeUsuarioApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CadastroUsuarioApplication.class, args);
+		SpringApplication.run(CadastroDeEnderecoDeUsuarioApplication.class, args);
 	}
 
 }
