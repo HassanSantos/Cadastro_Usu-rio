@@ -2,7 +2,9 @@ package com.endereco.usuario.cadastro.de.endereco.de.usuario.controller;
 
 import java.util.List;
 
-import com.endereco.usuario.cadastro.de.endereco.de.usuario.model.Endereco;
+import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.CpfAlreadyRegisteredException;
+import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.EmailAlreadyRegisteredException;
+import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.UserNotFoundException;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.model.User;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.repository.EnderecoRepository;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.service.UserService;
@@ -13,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 
 @RestController
@@ -26,31 +27,18 @@ public class UserController {
     @Autowired
     EnderecoRepository enderecoRepository;
 
+    private User cadastrarUsuario;
+
 
     @PostMapping(path = "/cadastro")
-    public String addUsuario(@RequestBody User user) {
-        userService.cadastrarUsuario(user);
-        return "Saved";
+    public User addUsuario(@RequestBody User user) throws UserNotFoundException, CpfAlreadyRegisteredException, EmailAlreadyRegisteredException {
+        cadastrarUsuario = userService.cadastrarUsuario(user);
+        return cadastrarUsuario;
     }
 
-    @GetMapping("/nome/{id}")
-    public User showUser(@PathVariable int id) {
-        return userService.showUsuario(id);
-    }
-
-    @GetMapping("/usuario/{nome}")
-    public List<User> buscarUsuario(@PathVariable String nome){
-       return userService.findByName(nome);
-    }
-
-    @GetMapping("/endereco/usuario/{idUser}")
-    public List<Object> enderecoDoUsuario(@PathVariable int idUser){
+    @GetMapping("/endereco/usuario/{idUser}") 
+    public List<Object> enderecoDoUsuario(@PathVariable int idUser) throws UserNotFoundException, CpfAlreadyRegisteredException{
         return userService.buscarEnderecoUsuario(idUser);
     }
-
-    // @GetMapping("teste")
-    // public Endereco buscar(@PathVariable int id){
-
-    // }
 
 }

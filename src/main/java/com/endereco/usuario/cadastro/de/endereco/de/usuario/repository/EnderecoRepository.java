@@ -1,7 +1,6 @@
 package com.endereco.usuario.cadastro.de.endereco.de.usuario.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.model.Endereco;
 
