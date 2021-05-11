@@ -2,6 +2,7 @@ package com.endereco.usuario.cadastro.de.endereco.de.usuario.controller;
 
 import java.util.List;
 
+import com.endereco.usuario.cadastro.de.endereco.de.usuario.dto.UserDto;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.CpfAlreadyRegisteredException;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.EmailAlreadyRegisteredException;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.UserNotFoundException;
@@ -39,6 +40,11 @@ public class UserController {
     @GetMapping("/endereco/usuario/{idUser}") 
     public List<Object> enderecoDoUsuario(@PathVariable int idUser) throws UserNotFoundException, CpfAlreadyRegisteredException{
         return this.userService.buscarEnderecoUsuario(idUser);
+    }
+
+    @GetMapping("/endereco/teste/{idUser}") 
+    public UserDto enderecoDoUsuarioteste(@PathVariable int idUser){
+        return userService.buscarEnderecoUsuarioTeste(idUser);
     }
 
 }

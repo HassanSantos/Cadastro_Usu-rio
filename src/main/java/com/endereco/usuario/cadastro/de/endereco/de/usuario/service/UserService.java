@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.endereco.usuario.cadastro.de.endereco.de.usuario.dto.UserDto;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.CpfAlreadyRegisteredException;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.EmailAlreadyRegisteredException;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.UserNotFoundException;
@@ -25,7 +26,8 @@ public class UserService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    public User cadastrarUsuario(User usuario)throws UserNotFoundException, CpfAlreadyRegisteredException, EmailAlreadyRegisteredException  {
+    public User cadastrarUsuario(User usuario)
+            throws UserNotFoundException, CpfAlreadyRegisteredException, EmailAlreadyRegisteredException {
         verifyIfExistsCpf(usuario.getCpf());
         verifyIfExistsEmail(usuario.getEmail());
         return userRepository.save(usuario);
@@ -33,7 +35,7 @@ public class UserService {
 
     public List<Object> buscarEnderecoUsuario(int idUser) throws UserNotFoundException, CpfAlreadyRegisteredException {
         verifyIfExists(idUser);
-        
+
         List<String> enderecoUser = new ArrayList<>();
         User user = userRepository.findById(idUser).get();
         enderecoUser.add(user.getNome());
@@ -44,6 +46,17 @@ public class UserService {
         return newList;
     }
 
+    public UserDto buscarEnderecoUsuarioTeste(int idUser) {
+        UserDto userDto = new UserDto();
+        User user = userRepository.findById(idUser).get();
+        List<Endereco> enderecos = enderecoRepository.findByidUser(idUser);
+        userDto.setEnderecos(enderecos);
+        userDto.setNome(user.getNome());
+        userDto.setCpf(user.getCpf());
+        userDto.setEmail(user.getEmail());
+        userDto.setNascimento(user.getNascimento());
+        return userDto;
+    }
 
     private void verifyIfExistsCpf(String cpf) throws CpfAlreadyRegisteredException {
         Optional<User> optSavedUser = userRepository.findByCpf(cpf);
@@ -51,12 +64,14 @@ public class UserService {
             throw new CpfAlreadyRegisteredException(cpf);
         }
     }
+
     private void verifyIfExistsEmail(String email) throws EmailAlreadyRegisteredException {
         Optional<User> optSavedEmail = userRepository.findByEmail(email);
         if (optSavedEmail.isPresent()) {
             throw new EmailAlreadyRegisteredException(email);
         }
     }
+
     private User verifyIfExists(int id) throws UserNotFoundException {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }

@@ -3,7 +3,6 @@ package com.endereco.usuario.cadastro.de.endereco.de.usuario.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
