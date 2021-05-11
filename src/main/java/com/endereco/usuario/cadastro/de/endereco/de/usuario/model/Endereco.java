@@ -3,14 +3,16 @@ package com.endereco.usuario.cadastro.de.endereco.de.usuario.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Endereco")
+@Table(name = "Endereco")
 public class Endereco {
     @Id
     @GeneratedValue
     private int id;
+   
     private int idUser;
     private String cep;
     private String logradouro;
@@ -19,8 +21,9 @@ public class Endereco {
     private String localidade;
     private String uf;
     private int numero;
+    private User user;
 
-    public Endereco(int idUser, String cep, String logradouro, String complemento, String bairro, String localidade,
+    public Endereco(User user, int idUser, String cep, String logradouro, String complemento, String bairro, String localidade,
             String uf, int numero) {
         this.idUser = idUser;
         this.cep = cep;
@@ -30,9 +33,12 @@ public class Endereco {
         this.localidade = localidade;
         this.uf = uf;
         this.numero = numero;
+        this.user = user;
     }
-    public Endereco(){}
-    
+
+    public Endereco() {
+    }
+
     public int getIdUser() {
         return idUser;
     }
@@ -95,6 +101,14 @@ public class Endereco {
 
     public void setNumero(int numero) {
         this.numero = numero;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 }

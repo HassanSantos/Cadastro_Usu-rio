@@ -33,9 +33,9 @@ public class UserService {
 
     public List<Object> buscarEnderecoUsuario(int idUser) throws UserNotFoundException, CpfAlreadyRegisteredException {
         verifyIfExists(idUser);
+        
         List<String> enderecoUser = new ArrayList<>();
         User user = userRepository.findById(idUser).get();
-       
         enderecoUser.add(user.getNome());
 
         List<Endereco> endereco = enderecoRepository.findByidUser(user.getId());
@@ -43,6 +43,7 @@ public class UserService {
 
         return newList;
     }
+
 
     private void verifyIfExistsCpf(String cpf) throws CpfAlreadyRegisteredException {
         Optional<User> optSavedUser = userRepository.findByCpf(cpf);

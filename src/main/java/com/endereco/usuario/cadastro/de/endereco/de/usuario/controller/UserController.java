@@ -38,7 +38,7 @@ public class UserController {
 
     @GetMapping("/endereco/usuario/{idUser}") 
     public List<Object> enderecoDoUsuario(@PathVariable int idUser) throws UserNotFoundException, CpfAlreadyRegisteredException{
-        return userService.buscarEnderecoUsuario(idUser);
+        return this.userService.buscarEnderecoUsuario(idUser);
     }
 
 }
