@@ -1,6 +1,6 @@
 package com.endereco.usuario.cadastro.de.endereco.de.usuario.controller;
 
-import com.endereco.usuario.cadastro.de.endereco.de.usuario.model.Endereco;
+import com.endereco.usuario.cadastro.de.endereco.de.usuario.dto.EnderecoDto;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.service.EnderecoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,8 @@ public class EnderecoController {
     EnderecoService enderecoService;
 
     @PostMapping(path = "/endereco")
-    public Endereco addEndereco(@RequestBody Endereco endereco){
-        return enderecoService.cadastrarEndereco(endereco);
+    public EnderecoDto addEndereco(@RequestBody EnderecoDto enderecoDto){
+        return enderecoService.cadastrarEndereco(enderecoDto);
     }
 
 }

@@ -1,18 +1,12 @@
-package com.endereco.usuario.cadastro.de.endereco.de.usuario.model;
+package com.endereco.usuario.cadastro.de.endereco.de.usuario.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.endereco.usuario.cadastro.de.endereco.de.usuario.model.User;
 
-@Entity
-@Table(name = "Endereco")
-public class Endereco {
-    @Id
-    @GeneratedValue
+public class EnderecoDto {
+
     private int id;
-   
     private int idUser;
+
     private String cep;
     private String logradouro;
     private String complemento;
@@ -22,15 +16,34 @@ public class Endereco {
     private int numero;
     private User user;
 
-    public Endereco() {
+    public EnderecoDto(int id, int idUser, String cep, String logradouro, String complemento, String bairro,
+            String localidade, String uf, int numero, User user) {
+        this.id = id;
+        this.idUser = idUser;
+        this.cep = cep;
+        this.logradouro = logradouro;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.localidade = localidade;
+        this.uf = uf;
+        this.numero = numero;
+        this.user = user;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
+    }
+
+    public int getIdUser() {
+        return idUser;
     }
 
     public String getCep() {

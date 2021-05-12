@@ -1,21 +1,18 @@
 package com.endereco.usuario.cadastro.de.endereco.de.usuario.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.dto.UserDto;
-import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.CpfAlreadyRegisteredException;
-import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.EmailAlreadyRegisteredException;
-import com.endereco.usuario.cadastro.de.endereco.de.usuario.exception.UserNotFoundException;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.model.Endereco;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.model.User;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.repository.EnderecoRepository;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.repository.UserRepository;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,59 +23,39 @@ public class UserService {
     @Autowired
     private EnderecoRepository enderecoRepository;
 
-    public User cadastrarUsuario(User usuario)
-            throws UserNotFoundException, CpfAlreadyRegisteredException, EmailAlreadyRegisteredException {
-        verifyIfExistsCpf(usuario.getCpf());
-        verifyIfExistsEmail(usuario.getEmail());
-        return userRepository.save(usuario);
-    }
+    @Autowired
+    private ModelMapper modelMapper;
 
-    public List<Object> buscarEnderecoUsuario(int idUser) throws UserNotFoundException, CpfAlreadyRegisteredException {
-        verifyIfExists(idUser);
-
-        List<String> enderecoUser = new ArrayList<>();
-        User user = userRepository.findById(idUser).get();
-        enderecoUser.add(user.getNome());
-
-        List<Endereco> endereco = enderecoRepository.findByidUser(user.getId());
-        List<Object> newList = Stream.concat(enderecoUser.stream(), endereco.stream()).collect(Collectors.toList());
-
-        return newList;
-    }
-
-    public UserDto buscarEnderecoUsuarioTeste(int idUser) {
-        UserDto userDto = new UserDto();
-        User user = userRepository.findById(idUser).get();
-        List<Endereco> enderecos = enderecoRepository.findByidUser(idUser);
-        userDto.setEnderecos(enderecos);
-        userDto.setNome(user.getNome());
-        userDto.setCpf(user.getCpf());
-        userDto.setEmail(user.getEmail());
-        userDto.setNascimento(user.getNascimento());
-        return userDto;
-    }
-
-    private void verifyIfExistsCpf(String cpf) throws CpfAlreadyRegisteredException {
-        Optional<User> optSavedUser = userRepository.findByCpf(cpf);
-        if (optSavedUser.isPresent()) {
-            throw new CpfAlreadyRegisteredException(cpf);
-        }
-    }
-
-    private void verifyIfExistsEmail(String email) throws EmailAlreadyRegisteredException {
-        Optional<User> optSavedEmail = userRepository.findByEmail(email);
+    public ResponseEntity<?> cadastrarUsuario(UserDto userDto) {
+        Optional<User> optSavedEmail = userRepository.findByEmail(userDto.getEmail());
+        Optional<User> optSavedCpf = userRepository.findByEmail(userDto.getCpf());
         if (optSavedEmail.isPresent()) {
-            throw new EmailAlreadyRegisteredException(email);
+            return new ResponseEntity<>("E-mail já cadastrado", HttpStatus.BAD_REQUEST);
+        } else if (optSavedCpf.isPresent()) {
+            return new ResponseEntity<>("CPF já cadastrado", HttpStatus.BAD_REQUEST);
         }
+        User user;
+        user = modelMapper.map(userDto, User.class);
+        userRepository.save(user);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
-    private User verifyIfExists(int id) throws UserNotFoundException {
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-    }
+    public ResponseEntity<?> buscarEnderecoUsuario(int idUser) {
+        try {
+            User user = userRepository.findById(idUser).get();
+            List<Endereco> enderecos = enderecoRepository.findByidUser(idUser);
+            UserDto userDto = new UserDto();
 
-    public Iterable<Endereco> underecoBusca(int idUser) {
-        Iterable<Endereco> endereco = enderecoRepository.findByidUser(idUser);
-        return endereco;
+            userDto.setEnderecos(enderecos);
+            userDto.setNome(user.getNome());
+            userDto.setCpf(user.getCpf());
+            userDto.setEmail(user.getEmail());
+            userDto.setNascimento(user.getNascimento());
+            return new ResponseEntity<>(userDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Usuário Não encontrado", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }
