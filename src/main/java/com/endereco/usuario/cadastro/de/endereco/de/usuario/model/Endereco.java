@@ -20,7 +20,6 @@ public class Endereco {
     private String localidade;
     private String uf;
     private int numero;
-    private User user;
 
     public Endereco() {
     }
@@ -89,12 +88,5 @@ public class Endereco {
         this.numero = numero;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
 }

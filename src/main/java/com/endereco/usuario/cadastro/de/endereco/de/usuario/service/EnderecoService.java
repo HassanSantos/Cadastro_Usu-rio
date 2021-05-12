@@ -1,5 +1,7 @@
 package com.endereco.usuario.cadastro.de.endereco.de.usuario.service;
 
+import java.util.Optional;
+
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.dto.EnderecoDto;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.interfaces.CepService;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.model.Endereco;
@@ -9,6 +11,8 @@ import com.endereco.usuario.cadastro.de.endereco.de.usuario.repository.UserRepos
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,14 +29,16 @@ public class EnderecoService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public EnderecoDto cadastrarEndereco(EnderecoDto enderecoDto) {
-        User user = userRepository.findById(enderecoDto.getIdUser()).get();
-        enderecoDto.setUser(user);
+    public ResponseEntity<?> cadastrarEndereco(EnderecoDto enderecoDto) {
+        Optional<User> optSaveEndereco = userRepository.findById(enderecoDto.getIdUser());
+        if (optSaveEndereco.isEmpty()) {
+            return new ResponseEntity<>("Usuário não encontrado", HttpStatus.BAD_REQUEST);
+        }
         consultarCep(enderecoDto);
-        Endereco endereco;
+        Endereco endereco = new Endereco();
         endereco = modelMapper.map(enderecoDto, Endereco.class);
         enderecoRepository.save(endereco);
-        return enderecoDto;
+        return new ResponseEntity<>("Endereço cadastrado com sucesso", HttpStatus.OK);
     }
 
     public EnderecoDto consultarCep(EnderecoDto enderecoDto) {

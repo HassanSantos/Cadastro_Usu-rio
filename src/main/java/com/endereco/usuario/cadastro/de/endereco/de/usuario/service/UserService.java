@@ -37,7 +37,7 @@ public class UserService {
         User user;
         user = modelMapper.map(userDto, User.class);
         userRepository.save(user);
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+        return new ResponseEntity<>("Usuário " + userDto.getNome() + " cadastrado com sucesso ", HttpStatus.OK);
     }
 
     public ResponseEntity<?> buscarEnderecoUsuario(int idUser) {

@@ -4,6 +4,7 @@ import com.endereco.usuario.cadastro.de.endereco.de.usuario.dto.EnderecoDto;
 import com.endereco.usuario.cadastro.de.endereco.de.usuario.service.EnderecoService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,7 @@ public class EnderecoController {
     EnderecoService enderecoService;
 
     @PostMapping(path = "/endereco")
-    public EnderecoDto addEndereco(@RequestBody EnderecoDto enderecoDto){
+    public ResponseEntity<?> addEndereco(@RequestBody EnderecoDto enderecoDto){
         return enderecoService.cadastrarEndereco(enderecoDto);
     }
 

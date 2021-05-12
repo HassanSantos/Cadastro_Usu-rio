@@ -4,7 +4,6 @@ import com.endereco.usuario.cadastro.de.endereco.de.usuario.model.User;
 
 public class EnderecoDto {
 
-    private int id;
     private int idUser;
 
     private String cep;
@@ -14,11 +13,9 @@ public class EnderecoDto {
     private String localidade;
     private String uf;
     private int numero;
-    private User user;
 
-    public EnderecoDto(int id, int idUser, String cep, String logradouro, String complemento, String bairro,
-            String localidade, String uf, int numero, User user) {
-        this.id = id;
+    public EnderecoDto(int idUser, String cep, String logradouro, String complemento, String bairro,
+            String localidade, String uf, int numero) {
         this.idUser = idUser;
         this.cep = cep;
         this.logradouro = logradouro;
@@ -27,15 +24,6 @@ public class EnderecoDto {
         this.localidade = localidade;
         this.uf = uf;
         this.numero = numero;
-        this.user = user;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setIdUser(int idUser) {
@@ -100,14 +88,6 @@ public class EnderecoDto {
 
     public void setNumero(int numero) {
         this.numero = numero;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
 }
